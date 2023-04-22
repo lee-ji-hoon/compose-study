@@ -1,15 +1,13 @@
 package com.example.code_labs_basic
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.Dimension
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -19,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.code_labs_basic.ui.theme.ComposestudyTheme
 
@@ -67,7 +66,7 @@ fun Greeting(name: String) {
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(if(expanded.value) 48.dp else 0.dp)
+                    .padding(bottom = extraPaddingBottomWhenExpanded(expanded.value, 48.dp))
             ) {
                 Text(text = "Hello, ")
                 Text(text = name)
@@ -75,7 +74,6 @@ fun Greeting(name: String) {
 
             ElevatedButton(
                 onClick = {
-                    Log.d("TAG", "Greeting: $expanded")
                     expanded.value = expanded.value.not()
                 },
             ) {
@@ -84,6 +82,12 @@ fun Greeting(name: String) {
         }
     }
 }
+
+private fun extraPaddingBottomWhenExpanded(
+    expanded: Boolean,
+    @Dimension(unit = Dimension.DP)
+    dp : Dp
+) = if (expanded) dp else 0.dp
 
 @Preview(showBackground = true, widthDp = 320)
 @Composable
