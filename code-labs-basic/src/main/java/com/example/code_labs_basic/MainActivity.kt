@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.Dimension
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -71,8 +74,15 @@ private fun Greetings(
 
 @Composable
 private fun Greeting(name: String) {
-    val expanded = remember { mutableStateOf(false) }
-
+    var expanded by rememberSaveable { mutableStateOf(false) }
+    val extraPadding by animateDpAsState(
+        if (expanded) 48.dp else 0.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        ),
+        label = "bottom_spread_48dp"
+    )
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.padding(
@@ -80,24 +90,18 @@ private fun Greeting(name: String) {
             horizontal = 8.dp
         )
     ) {
-        Row(
-            modifier = Modifier.padding(24.dp)
-        ) {
+        Row(modifier = Modifier.padding(24.dp)) {
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom = extraPaddingBottomWhenExpanded(expanded.value, 48.dp))
+                    .padding(bottom = extraPadding.coerceAtLeast(0.dp))
             ) {
                 Text(text = "Hello, ")
                 Text(text = name)
             }
 
-            ElevatedButton(
-                onClick = {
-                    expanded.value = expanded.value.not()
-                },
-            ) {
-                Text(text = if (expanded.value) "show less" else "show more")
+            ElevatedButton(onClick = { expanded = expanded.not() },) {
+                Text(text = if (expanded) "show less" else "show more")
             }
         }
     }
@@ -124,12 +128,6 @@ fun OnboardingScreen(
         }
     }
 }
-
-private fun extraPaddingBottomWhenExpanded(
-    expanded: Boolean,
-    @Dimension(unit = Dimension.DP)
-    dp: Dp
-) = if (expanded) dp else 0.dp
 
 @Preview
 @Composable
