@@ -1,6 +1,7 @@
 package com.example.code_labs_basic
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,7 +50,10 @@ private fun MyApp(
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Greeting(name: String) {
+
+    val expanded = remember { mutableStateOf(false) }
+
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.padding(
@@ -59,14 +65,21 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier.padding(24.dp)
         ) {
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(if(expanded.value) 48.dp else 0.dp)
             ) {
-                Text(text = "Hello, ",)
+                Text(text = "Hello, ")
                 Text(text = name)
             }
 
-            ElevatedButton(onClick = { /*TODO*/ }) {
-                Text(text = "show more")
+            ElevatedButton(
+                onClick = {
+                    Log.d("TAG", "Greeting: $expanded")
+                    expanded.value = expanded.value.not()
+                },
+            ) {
+                Text(text = if (expanded.value) "show less" else "show more")
             }
         }
     }
