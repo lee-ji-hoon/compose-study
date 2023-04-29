@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">jetpack-compose-android-ui-book</string>
+    <string name="hint">힌트</string>
+    <string name="done">확인</string>
+</resources>

@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "compose-study"
 include ':app'
 include ':code-labs-basic'
+include ':jetpack-compose-android-ui-book'
