@@ -1,4 +1,4 @@
-package com.example.jetpack_compose_android_ui_book
+package com.example.chapter01
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -27,7 +27,7 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.jetpack_compose_android_ui_book.ui.theme.ComposestudyTheme
+import com.example.chapter01.ui.theme.ComposestudyTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
