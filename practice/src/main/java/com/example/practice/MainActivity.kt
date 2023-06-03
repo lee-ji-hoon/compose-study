@@ -44,6 +44,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.practice.fast.EzDialog
 import com.example.practice.ui.theme.ComposestudyTheme
 
 data class ItemData(
@@ -107,7 +108,7 @@ class MainActivity : ComponentActivity() {
             ComposestudyTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    EzCatalogItem(items)
+                    EzDialog()
                 }
             }
         }
