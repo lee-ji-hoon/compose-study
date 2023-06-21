@@ -14,10 +14,13 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.practice.ui.theme.ComposestudyTheme
@@ -26,13 +29,17 @@ import com.example.practice.ui.theme.ComposestudyTheme
 // 첫 단계에서는 내용을 비워두고 시작합시다.
 
 class TodoViewModel : ViewModel() {
-    val text = mutableStateOf("")
+    private var _text = MutableLiveData("")
+    val text: LiveData<String> = _text
+    val setText: (String) -> Unit = {
+        _text.value = it
+    }
     val toDoList = mutableStateListOf<ToDoDataEx>()
 
     val onSubmit: (String) -> Unit = {
         val key = (toDoList.lastOrNull()?.key ?: 0) + 1
         toDoList.add(ToDoDataEx(key, it))
-        text.value = ""
+        _text.value = ""
     }
 
     val onEdit: (Int, String) -> Unit = { key, newText ->
@@ -70,8 +77,8 @@ fun ViewModelEx(viewModel: TodoViewModel = viewModel()) {
             modifier = Modifier.padding(paddingValues)
         ) {
             ToDoInputEx(
-                text = viewModel.text.value,
-                onTextChange = { viewModel.text.value = it },
+                text = viewModel.text.observeAsState("").value,
+                onTextChange = viewModel.setText,
                 onSubmit = viewModel.onSubmit
             )
             LazyColumn {
@@ -125,7 +132,7 @@ fun ToDoInputEx(
 @Composable
 fun ToDoInputExPreview() {
     ComposestudyTheme {
-        ToDoInputEx("테스트", {}, {})
+        ToDoInputEx("테스트", {}) {}
     }
 }
 
