@@ -3,6 +3,7 @@ package com.moview_app.ui.theme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,6 +12,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import com.moview_app.ui.config.ComponentConfig
 import com.moview_app.ui.config.DefaultComponentConfig
 import com.moview_app.ui.theme.color.ColorSet
+import com.moview_app.ui.theme.color.MyColors
 
 
 private val LocalColors = staticCompositionLocalOf { ColorSet.Red.LightColors }
@@ -41,3 +43,8 @@ fun MovieAppTheme(
         )
     }
 }
+
+val MaterialTheme.movieColorSchemes: MyColors
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalColors.current
