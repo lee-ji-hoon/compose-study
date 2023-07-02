@@ -13,14 +13,14 @@ data class MyColors(
     val checkmark: Color = material.primary,
     val disabledSecondary: Color = material.secondary.copy(alpha = 0.5f),
     val textFiledBackground: Color = Color.LightGray,
-    val textFiledBackgroundVariant: Color = Color.DarkGray,
+    val textFiledBackgroundContainer: Color = Color.DarkGray,
     val launcherScreenBackground: Color = material.primary,
     val progressItemColor: Color = Color.Black
 ) {
     val primary: Color get() = material.primary
-    val primaryVariant: Color get() = material.primaryContainer
+    val primaryContainer: Color get() = material.primaryContainer
     val secondary: Color get() = material.secondary
-    val secondaryVariant: Color get() = material.secondaryContainer
+    val secondaryContainer: Color get() = material.secondaryContainer
     val background: Color get() = material.background
     val surface: Color get() = material.surface
     val error: Color get() = material.error

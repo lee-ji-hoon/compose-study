@@ -35,7 +35,8 @@ fun UnderlineButton(
             contentColor = MaterialTheme.movieColorSchemes.secondary,
             disabledContainerColor = MaterialTheme.movieColorSchemes.background,
             disabledContentColor = MaterialTheme.movieColorSchemes.disabledSecondary
-        )
+        ),
+        elevation = null
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,
