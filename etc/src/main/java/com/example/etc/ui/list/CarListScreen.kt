@@ -1,7 +1,11 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.example.etc.ui.list
 
 import android.widget.Toast
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +37,7 @@ fun CarListScreen(
 ) {
 
     val context = LocalContext.current
+    val groupItems = itemArray.groupBy { it.substringBefore(' ') }
 
     val onListItemClick = { text: String ->
         Toast.makeText(
@@ -42,11 +48,24 @@ fun CarListScreen(
     }
 
     LazyColumn {
-        items(itemArray) { model ->
-            CarListItem(
-                item = model,
-                onItemClick = onListItemClick
-            )
+        groupItems.forEach { (manufacturer, models) ->
+            stickyHeader {
+                Text(
+                    text = manufacturer,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color.White,
+                    modifier = Modifier
+                        .background(Color.Gray)
+                        .padding(5.dp)
+                        .fillMaxWidth()
+                )
+            }
+            items(models) { model ->
+                CarListItem(
+                    item = model,
+                    onItemClick = onListItemClick
+                )
+            }
         }
     }
 }
