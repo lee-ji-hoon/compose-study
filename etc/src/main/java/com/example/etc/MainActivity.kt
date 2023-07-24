@@ -30,18 +30,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.etc.ui.list.CarListScreen
 import com.example.etc.ui.theme.ComposestudyTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val itemArray by lazy { resources.getStringArray(R.array.car_array) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             ComposestudyTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen()
+                    CarListScreen(itemArray = itemArray)
                 }
             }
         }
@@ -166,7 +171,7 @@ fun DemoPreview() {
     )
 }
 
-@Preview(showBackground=true)
+@Preview(showBackground = true)
 @Composable
 fun SlotPreview() {
     MainScreen()
