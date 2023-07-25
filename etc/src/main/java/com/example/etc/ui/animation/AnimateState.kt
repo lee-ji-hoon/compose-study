@@ -1,9 +1,12 @@
 package com.example.etc.ui.animation
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,8 +61,57 @@ fun AnimateStateScreen() {
     }
 }
 
+enum class BoxColor {
+    RED, MAGENTA
+}
+
+@Composable
+fun ColorChangeScreen() {
+    var colorState by remember { mutableStateOf(BoxColor.RED) }
+
+    val animateColor by animateColorAsState(
+        targetValue = when (colorState) {
+            BoxColor.RED -> Color.Magenta
+            BoxColor.MAGENTA -> Color.Red
+        } ,
+        animationSpec = tween(4500),
+        label = "animateColor"
+    )
+
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(20.dp)
+                .size(200.dp)
+                .background(animateColor)
+        )
+
+        Button(
+            onClick = {
+                colorState = when (colorState) {
+                    BoxColor.RED -> BoxColor.MAGENTA
+                    BoxColor.MAGENTA -> BoxColor.RED
+                }
+            },
+            modifier = Modifier.padding(10.dp)
+        ) {
+            Text(text = "Change Color")
+        }
+    }
+}
+
 @Preview
 @Composable
 fun AnimateStateScreenPreview() {
     AnimateStateScreen()
+}
+
+@Preview
+@Composable
+fun ColorChangeScreenPreview() {
+    ColorChangeScreen()
 }
