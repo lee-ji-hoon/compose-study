@@ -2,13 +2,17 @@ package com.example.etc.ui.animation
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
@@ -22,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -62,18 +67,18 @@ fun AnimateStateScreen() {
 }
 
 enum class BoxColor {
-    RED, MAGENTA
+    Red, Magenta
 }
 
 @Composable
 fun ColorChangeScreen() {
-    var colorState by remember { mutableStateOf(BoxColor.RED) }
+    var colorState by remember { mutableStateOf(BoxColor.Red) }
 
     val animateColor by animateColorAsState(
         targetValue = when (colorState) {
-            BoxColor.RED -> Color.Magenta
-            BoxColor.MAGENTA -> Color.Red
-        } ,
+            BoxColor.Red -> Color.Magenta
+            BoxColor.Magenta -> Color.Red
+        },
         animationSpec = tween(4500),
         label = "animateColor"
     )
@@ -93,13 +98,61 @@ fun ColorChangeScreen() {
         Button(
             onClick = {
                 colorState = when (colorState) {
-                    BoxColor.RED -> BoxColor.MAGENTA
-                    BoxColor.MAGENTA -> BoxColor.RED
+                    BoxColor.Red -> BoxColor.Magenta
+                    BoxColor.Magenta -> BoxColor.Red
                 }
             },
             modifier = Modifier.padding(10.dp)
         ) {
             Text(text = "Change Color")
+        }
+    }
+}
+
+enum class BoxPosition {
+    Start, End
+}
+
+@Composable
+fun MotionScreen() {
+    var boxState by remember { mutableStateOf(BoxPosition.Start) }
+    val boxSideLength = 70.dp
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+
+    val animatedOffset by animateDpAsState(
+        targetValue = when (boxState) {
+            BoxPosition.Start -> 0.dp
+            BoxPosition.End -> screenWidth - boxSideLength
+        },
+        animationSpec = tween(500),
+        label = "animatedOffset"
+    )
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Box(
+            modifier = Modifier
+                .offset(
+                    x = animatedOffset,
+                    y = 20.dp
+                )
+                .size(boxSideLength)
+                .background(Color.Red)
+        )
+
+        Spacer(modifier = Modifier.height(50.dp))
+
+        Button(
+            onClick = {
+                boxState = when (boxState) {
+                    BoxPosition.Start -> BoxPosition.End
+                    BoxPosition.End -> BoxPosition.Start
+                }
+            },
+            modifier = Modifier
+                .padding(20.dp)
+                .align(Alignment.CenterHorizontally)
+        ) {
+            Text(text = "Move Box")
         }
     }
 }
@@ -114,4 +167,10 @@ fun AnimateStateScreenPreview() {
 @Composable
 fun ColorChangeScreenPreview() {
     ColorChangeScreen()
+}
+
+@Preview
+@Composable
+fun MotionScreenPreview() {
+    MotionScreen()
 }
