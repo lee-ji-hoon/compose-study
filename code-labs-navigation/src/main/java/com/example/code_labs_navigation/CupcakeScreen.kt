@@ -1,6 +1,7 @@
 package com.example.code_labs_navigation
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -16,12 +17,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.code_labs_navigation.data.DataSource
 import com.example.code_labs_navigation.ui.OrderViewModel
 import com.example.code_labs_navigation.ui.StartOrderScreen
 
@@ -87,7 +90,16 @@ fun CupcakeApp(
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(route = CupcakeScreen.Start.name) {
-                // TODO StartOrderScreen
+                StartOrderScreen(
+                    quantityOptions = DataSource.quantityOptions,
+                    onNextButtonClicked = {
+                        viewModel.setQuantity(it)
+                        navController.navigate(CupcakeScreen.Flavor.name)
+                    },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                )
             }
 
             composable(route = CupcakeScreen.Flavor.name) {
@@ -102,10 +114,6 @@ fun CupcakeApp(
                 // TODO OrderSummaryScreen
             }
         }
-
-        StartOrderScreen(
-            modifier = Modifier.padding(paddingValues)
-        )
     }
 }
 
