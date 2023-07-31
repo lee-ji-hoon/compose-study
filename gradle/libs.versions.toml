@@ -1,7 +1,7 @@
 [versions]
 androidx-hilt-navigation-compose = "1.0.0"
 coil = "2.4.0"
-com-android-application = "8.0.0"
+com-android-application = "8.1.0"
 constraintlayout-compose-android = "1.1.0-alpha10"
 google-gson = "2.10.1"
 hilt-android = "2.44.2"
